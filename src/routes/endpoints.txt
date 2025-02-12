@@ -1,0 +1,52 @@
+# Decks
+
+POST   /deck           Create a new deck (request body: initial deck data)
+GET    /deck/list           List decks (optional query parameters for filtering/pagination)
+GET    /deck/:deck_id   Get a specific deck
+PUT    /deck/:deck_id   Update a deck (e.g., reshuffle, add cards)
+DELETE /deck/:deck_id   Delete a deck
+
+# Deck Actions (These would be sub-resources of a deck)
+
+POST   /deck/:deck_id/shuffle    Shuffle the deck (request body: shuffle options)
+POST   /deck/:deck_id/draw       Draw cards (request body: number of cards)
+POST   /deck/:deck_id/discard    Discard a card (request body: card details)
+POST   /deck/:deck_id/return     Return cards to the deck (request body: card details/positions)
+POST   /deck/:deck_id/split      Split the deck (request body: number of portions)
+
+# Piles (Sub-resources of a deck)
+
+GET    /deck/:deck_id/piles      List piles in a deck
+GET    /deck/:deck_id/piles/:pile_id  Get a specific pile
+POST   /deck/:deck_id/piles/:pile_id/add   Add cards to a pile
+POST   /deck/:deck_id/piles/:pile_id/remove Remove cards from a pile
+
+# Examples of request bodies (JSON):
+
+# POST /decks
+{
+  "cards": [ /* initial card data */ ]
+}
+
+# POST /decks/:deck_id/shuffle
+{
+  "include_discard": true,
+  "mode": "standard"
+}
+
+# POST /decks/:deck_id/draw
+{
+  "amount": 1
+}
+
+# POST /decks/:deck_id/discard
+{
+  "card_code": "6H"
+}
+
+# GET /decks/:deck_id
+{
+  "deck_id": "uuid",
+  "cards": [],
+  "piles": []
+}
